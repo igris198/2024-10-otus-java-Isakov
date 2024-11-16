@@ -1,18 +1,18 @@
 package homework;
 
-import java.util.LinkedHashSet;
+import java.util.*;
 
 public class CustomerReverseOrder {
-    LinkedHashSet<Customer> customerLinkedHashSet = new LinkedHashSet<>();
+    private final Deque<Customer> customerDeque = new ArrayDeque<>();
 
     // todo: 2. надо реализовать методы этого класса
     // надо подобрать подходящую структуру данных, тогда решение будет в "две строчки"
 
     public void add(Customer customer) {
-        customerLinkedHashSet.add(customer);
+        customerDeque.addLast(customer);
     }
 
     public Customer take() {
-        return customerLinkedHashSet.removeLast();
+        return customerDeque.pollLast();
     }
 }

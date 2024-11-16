@@ -1,12 +1,9 @@
 package homework;
 
-import java.util.AbstractMap;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class CustomerService {
-    TreeMap<Customer, String> customerStringTreeMap = new TreeMap<>(Comparator.comparingLong(Customer::getScores));
+    private final NavigableMap<Customer, String> customerStringTreeMap = new TreeMap<>(Comparator.comparingLong(Customer::getScores));
 
     private Map.Entry<Customer, String> getEntryClone(Customer customer) {
         if (customer == null) return null;

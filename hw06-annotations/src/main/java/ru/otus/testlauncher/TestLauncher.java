@@ -1,4 +1,4 @@
-package ru.otus;
+package ru.otus.testlauncher;
 
 import ru.otus.annotations.After;
 import ru.otus.annotations.Before;
@@ -32,8 +32,10 @@ import org.slf4j.LoggerFactory;
 public class TestLauncher {
     private static final Logger logger = LoggerFactory.getLogger(TestLauncher.class);
 
-    public static void main(String[] args) {
-        final Class<?> testClass = getTestSetClass();
+    public static void run(Class<?> testClass) {
+        if (testClass == null) {
+            testClass = getTestSetClass();
+        }
 
         List<Method> beforeMethods = getAnnotatedMethods(testClass, Before.class);
         List<Method> testMethods = getAnnotatedMethods(testClass, Test.class);
@@ -43,7 +45,7 @@ public class TestLauncher {
     }
 
     private static Class<?> getTestSetClass() {
-        Class<?> testClass;
+        final Class<?> testClass;
 
         try (InputStream inputStream = TestLauncher.class.getClassLoader().getResourceAsStream("testlauncher.properties")) {
             Properties properties = new Properties();

@@ -12,7 +12,7 @@
         </encoder>
     </appender>
 
-    <logger name="ru.otus.TestLauncher" level="info" additivity="true">
+    <logger name="ru.otus.testlauncher.TestLauncher" level="info" additivity="true">
         <appender-ref ref="APP_LOG" />
     </logger>
 

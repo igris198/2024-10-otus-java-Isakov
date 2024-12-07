@@ -24,3 +24,4 @@ pluginManagement {
         id("com.diffplug.spotless") version spotless
     }
 }
+include("hw08-gc")

@@ -20,10 +20,10 @@ public class ProxyTestLogging {
     }
 
     static class TestLoggingInvocationHandler implements InvocationHandler {
-        private final TestLoggingInterface myClass;
+        private final Object myClass;
         private final Map<String, Method> methods;
 
-        TestLoggingInvocationHandler(TestLoggingInterface myClass) {
+        TestLoggingInvocationHandler(Object myClass) {
             this.myClass = myClass;
             this.methods = getLogAnnotatedMethods();
         }

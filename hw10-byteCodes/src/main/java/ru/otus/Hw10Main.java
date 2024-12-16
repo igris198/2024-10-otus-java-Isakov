@@ -4,10 +4,8 @@ import ru.otus.proxy.ProxyTestLogging;
 import ru.otus.proxy.TestLoggingImpl;
 import ru.otus.proxy.TestLoggingInterface;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class Hw10Main {
-    public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args)  {
         TestLoggingInterface myClass = ProxyTestLogging.createMyClass(new TestLoggingImpl());
 
         myClass.calculation(1);

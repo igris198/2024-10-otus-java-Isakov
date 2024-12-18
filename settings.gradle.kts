@@ -26,3 +26,4 @@ pluginManagement {
 }
 include("hw08-gc")
 include("hw10-byteCodes")
+include("hw12-solid")

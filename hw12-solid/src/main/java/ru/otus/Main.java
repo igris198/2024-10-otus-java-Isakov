@@ -24,8 +24,20 @@ public class Main {
         fullPackOfBanknotes = atm.getCash(500);
         if (fullPackOfBanknotes != null) fullPackOfBanknotes.printSum();
 
+        atm.addCashBox(new CashBox(Banknote.FIVE_HUNDRED, 1));
+
         fullPackOfBanknotes = atm.getCash(1500);
         if (fullPackOfBanknotes != null) fullPackOfBanknotes.printSum();
+
+        fullPackOfBanknotes =  atm.getCash(600);
+        if (fullPackOfBanknotes != null) fullPackOfBanknotes.printSum();
+
+        atm.getCashBalance();
+
+        atm.addCash(Banknote.FIFTY, 4);
+        atm.addCash(Banknote.ONE_HUNDRED, 2);
+
+        atm.getCashBalance();
 
         fullPackOfBanknotes =  atm.getCash(600);
         if (fullPackOfBanknotes != null) fullPackOfBanknotes.printSum();

@@ -87,4 +87,56 @@ public class ATMTest {
         fullPackOfBanknotes = atm.getCash(50);
         assertThat(fullPackOfBanknotes).isNull();
     }
+
+    @Test
+    @DisplayName("ATM не выдает сумму которую невозможно сложить из имеющихся купюр")
+    void getNotExistingBillsTest() {
+        ATM atm = new ATM(4);
+        atm.addCashBox(new CashBox(Banknote.ONE_THOUSAND, 1));
+        atm.addCashBox(new CashBox(Banknote.ONE_HUNDRED, 10));
+        atm.addCashBox(new CashBox(Banknote.FIVE_HUNDRED, 1));
+
+        FullPackOfBanknotes fullPackOfBanknotes;
+        fullPackOfBanknotes = atm.getCash(650);
+        assertThat(fullPackOfBanknotes).isNull();
+    }
+
+    @Test
+    @DisplayName("Внесение купюр в имеющиеся ячейки")
+    void addBanknotesTest() {
+        ATM atm = new ATM(4);
+        atm.addCashBox(new CashBox(Banknote.ONE_THOUSAND, 1));
+        atm.addCashBox(new CashBox(Banknote.ONE_HUNDRED, 10));
+
+        atm.addCash(Banknote.ONE_THOUSAND,1);
+        assertThat(atm.getCashBalance()).isEqualTo(3000);
+    }
+
+    @Test
+    @DisplayName("ATM не принимает купюры номинала которых нет в имеющихся ячейках")
+    void addWrongDenominationTest() {
+        ATM atm = new ATM(4);
+        atm.addCashBox(new CashBox(Banknote.ONE_THOUSAND, 1));
+        atm.addCashBox(new CashBox(Banknote.ONE_HUNDRED, 10));
+
+        atm.addCash(Banknote.FIVE_HUNDRED,1);
+
+        assertThat(atm.getCashBalance()).isEqualTo(2000);
+    }
+
+    @Test
+    @DisplayName("В ATM добавляется новая кассета взамен пустой")
+    void addReplaceBoxTest() {
+        ATM atm = new ATM(1);
+        atm.addCashBox(new CashBox(Banknote.FIVE_HUNDRED, 1));
+
+        FullPackOfBanknotes fullPackOfBanknotes = atm.getCash(500);
+        fullPackOfBanknotes.printSum();
+        assertThat(fullPackOfBanknotes.getSum()).isEqualTo(500);
+
+        atm.addCashBox(new CashBox(Banknote.FIVE_HUNDRED, 1));
+
+        assertThat(atm.getCashBalance()).isEqualTo(500);
+    }
+
 }

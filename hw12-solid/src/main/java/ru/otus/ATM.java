@@ -18,16 +18,16 @@ public class ATM {
     }
 
     public void addCashBox(CashBox cashBox) {
-        cashBoxes = deleteEmptyCashBoxes();
+        cashBoxes = deleteEmptyCashBox(cashBox.getBanknoteValue());
         if (cashBoxes.size() < cashBoxesMaxValue) {
             cashBoxes.add(cashBox);
-            logger.info("Ячейка добавлена");
+            logger.info("Добавлена ячейка с купюрами {} руб.", cashBox.getBanknoteValue());
         }
         else { throw new RuntimeException("Превышено максимальное число заполненных ячеек"); }
     }
 
-    public TreeSet<CashBox> deleteEmptyCashBoxes() {
-        return cashBoxes.stream().filter(cashBox -> !cashBox.isEmpty()).collect(Collectors.toCollection(() -> new TreeSet<>(CashBox.getComparator())));
+    public TreeSet<CashBox> deleteEmptyCashBox(int value) {
+        return cashBoxes.stream().filter(cashBox -> !(cashBox.isEmpty() & cashBox.getBanknoteValue() == value)).collect(Collectors.toCollection(() -> new TreeSet<>(CashBox.getComparator())));
     }
 
     public boolean checkSum(int sum) {
@@ -58,6 +58,17 @@ public class ATM {
             if (remainingSum == 0) break;
         }
         return fullPackOfBanknotes;
+    }
+
+    public void addCash(Banknote banknote, int amount){
+        for (CashBox cashBox : cashBoxes) {
+            if (cashBox.getBanknoteValue() == banknote.getValue()) {
+                cashBox.addBanknotes(amount);
+                logger.info("Добавлены купюры в {} руб. количеством {} шт", banknote.getValue(), amount);
+                return;
+            }
+        }
+        logger.error("Невозможно добавить банкноты номинала {} руб.", banknote.getValue());
     }
 
     public int getCashBalance(){

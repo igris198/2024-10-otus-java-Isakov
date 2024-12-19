@@ -7,27 +7,11 @@ public class PackOfBanknotes {
     private static final Logger logger = LoggerFactory.getLogger(PackOfBanknotes.class);
 
     private final Banknote banknote;
-    private int amount;
+    private final int amount;
 
     public PackOfBanknotes(Banknote banknote, int amount) {
         this.banknote = banknote;
         this.amount = amount;
-    }
-
-    public Banknote getBanknote() {
-        return banknote;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public boolean isEmpty() {
-        return amount == 0;
     }
 
     public int getSum(){

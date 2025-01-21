@@ -1,10 +1,10 @@
 package ru.otus.dataprocessor;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
-import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -22,25 +22,12 @@ public class ResourcesFileLoader implements Loader {
 
     @Override
     public List<Measurement> load() {
-        StringBuilder stringForParsing = new StringBuilder("{ \"values\":");
-        try (InputStream inputStream = ResourcesFileLoader.class.getClassLoader().getResourceAsStream(fileName);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
-            String line;
-            while( (line = bufferedReader.readLine()) !=null) {
-                stringForParsing.append(line);
-            }
-            stringForParsing.append("}");
+        try (InputStream inputStream = ResourcesFileLoader.class.getClassLoader().getResourceAsStream(fileName)) {
             ObjectMapper objectMapper = new ObjectMapper();
-            InputDataClass inputDataClass = objectMapper.readValue(stringForParsing.toString(), InputDataClass.class);
-            return inputDataClass.values;
+            return objectMapper.readValue(inputStream, new TypeReference<List<Measurement>>() {});
         } catch (IOException e) {
             logger.error("Error in load() method: {}",e.getMessage());
             throw new FileProcessException(e);
         }
-    }
-
-    private static class InputDataClass{
-        @JsonProperty("values")
-        List<Measurement> values;
     }
 }

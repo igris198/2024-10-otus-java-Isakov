@@ -58,6 +58,7 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
             }
             return object;
         } catch (SQLException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            log.error("Error in getResult():{}",e.getMessage());
             throw new DataTemplateException(e);
         }
     }

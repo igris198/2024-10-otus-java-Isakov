@@ -8,12 +8,16 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
     private static final Logger log = LoggerFactory.getLogger(EntityClassMetaDataImpl.class);
 
     private final Class<T> clazz;
+    private String classSimpleName;
+    private Constructor<T> constructor;
+    private Field idField;
+    private List<Field> allFieldsList;
+    private List<Field> fieldsWithoutId;
 
     public EntityClassMetaDataImpl(Class<T> clazz) {
         this.clazz = clazz;
@@ -21,34 +25,42 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
 
     @Override
     public String getName() {
-        return clazz.getSimpleName();
+        return classSimpleName == null ? classSimpleName = clazz.getSimpleName() : classSimpleName;
     }
 
     @Override
     public Constructor<T> getConstructor() {
         try {
-            return clazz.getConstructor();
+            return constructor == null ? constructor = clazz.getConstructor() : constructor;
         } catch (NoSuchMethodException e) {
-            log.error("Error in getConstructor():{}",e.getMessage());
+            log.error("Error in getConstructor():{}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public Field getIdField() {
-        Optional<Field> fieldOptional = Arrays.stream(clazz.getDeclaredFields()).filter(field -> field.isAnnotationPresent(Id.class)).findFirst();
-        return fieldOptional.orElse(null);
+        if (idField == null) {
+            idField = Arrays.stream(clazz.getDeclaredFields())
+                    .filter(field -> field.isAnnotationPresent(Id.class))
+                    .findFirst()
+                    .orElse(null);
+        }
+        return idField;
     }
 
     @Override
     public List<Field> getAllFields() {
-        var listAllFields = clazz.getDeclaredFields();
-        return List.of(listAllFields);
+        return allFieldsList == null ? allFieldsList = List.of(clazz.getDeclaredFields()) : allFieldsList;
     }
 
     @Override
     public List<Field> getFieldsWithoutId() {
-        var idField = getIdField();
-        return getAllFields().stream().filter(field -> !field.equals(idField)).toList();
+        if (fieldsWithoutId == null) {
+            fieldsWithoutId = getAllFields().stream()
+                    .filter(field -> !field.equals(getIdField()))
+                    .toList();
+        }
+        return fieldsWithoutId;
     }
 }

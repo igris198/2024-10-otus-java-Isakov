@@ -16,4 +16,13 @@ public class Phone {
     private Long id;
 
     private String number;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+
+    public Phone(Long id, String number) {
+        this.id = id;
+        this.number = number;
+    }
 }

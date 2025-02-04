@@ -2,6 +2,7 @@ package ru.otus.crm.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.cachehw.HwCache;
 import ru.otus.cachehw.HwListener;
 import ru.otus.cachehw.MyCache;
 import ru.otus.core.repository.DataTemplate;
@@ -17,11 +18,12 @@ public class DbServiceClientWeakCacheImpl implements DBServiceClient {
     private final DataTemplate<Client> dataTemplate;
     private final TransactionRunner transactionRunner;
 
-    private final MyCache<String, Client> myCache = new MyCache<>();
+    private final HwCache<String, Client> myCache;
 
-    public DbServiceClientWeakCacheImpl(TransactionRunner transactionRunner, DataTemplate<Client> dataTemplate) {
+    public DbServiceClientWeakCacheImpl(TransactionRunner transactionRunner, DataTemplate<Client> dataTemplate, HwCache<String, Client> cache) {
         this.transactionRunner = transactionRunner;
         this.dataTemplate = dataTemplate;
+        this.myCache = cache;
     }
 
     @Override

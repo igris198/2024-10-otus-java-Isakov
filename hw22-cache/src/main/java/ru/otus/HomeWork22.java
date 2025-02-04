@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.flywaydb.core.Flyway;
 
+import ru.otus.cachehw.HwCache;
+import ru.otus.cachehw.MyCache;
 import ru.otus.core.repository.executor.DbExecutorImpl;
 import ru.otus.core.sessionmanager.TransactionRunnerJdbc;
 import ru.otus.crm.DriverManagerDataSource;
@@ -36,7 +38,8 @@ public class HomeWork22 {
         EntitySQLMetaData entitySQLMetaDataClient = new EntitySQLMetaDataImpl<>(entityClassMetaDataClient);
         var dataTemplateClient = new DataTemplateJdbc<>(dbExecutor, entitySQLMetaDataClient, entityClassMetaDataClient);
 
-        var dbServiceClient = new DbServiceClientWeakCacheImpl(transactionRunner, dataTemplateClient);
+        HwCache<String, Client> hwCache = new MyCache<>();
+        var dbServiceClient = new DbServiceClientWeakCacheImpl(transactionRunner, dataTemplateClient, hwCache);
         dbServiceClient.addListener((key, value, action) -> log.info("WeakCache action:{}, key:{}, value:{}", action, key, value));
 
         List<Client> testClients = new ArrayList<>();

@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+    <title>Клиенты</title>
+    <style>
+        label {
+            display: block;
+        }
+        input[type="text"] {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="clients" id="addClient">
+        <fieldset>
+            <legend>Добавление нового клиента</legend>
+            <label for="clientName">Имя клиента: </label>
+            <input type="text" name = "clientName" id = "clientName" required>
+            <label for="clientAddress">Адрес клиента: </label>
+            <input type="text" name = "clientAddress" id = "clientAddress">
+            <label for="clientPhones">Список телефонов через запятую: </label>
+            <input type="text" name = "clientPhones" id = "clientPhones">
+            <button type="submit">Добавить</button>
+        </fieldset>
+    </form>
+    <form method="get" action="allClients">
+        <button type="submit">Получить список всех клиентов</button>
+    </form>
+    <script>
+        document.getElementById('addClient').addEventListener('submit', function() {
+            alert("Клиент добавлен");
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список клиентов</title>
+</head>
+<body>
+    <h4>Список клиентов</h4>
+    <table style="width: 600px" border= "1">
+        <thead>
+        <tr>
+            <th style="width: 100px">Имя</th>
+            <th style="width: 200px">Адрес</th>
+            <th style="width: 300px">Телефоны</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="client : ${clients}">
+            <td style="width: 100px" th:text="${client.name}"></td>
+            <td style="width: 200px" th:text="${client.address.street}"></td>
+            <td style="width: 300px" >
+                <th:block th:each="phone, iterStat : ${client.phones}">
+                <span th:text="${phone.number}"></span>
+                <span th:if="${!iterStat.last}">,</span>
+                </th:block>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

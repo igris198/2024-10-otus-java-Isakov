@@ -1,9 +1,6 @@
 drop table if exists address;
 drop table if exists phones;
 drop table if exists client;
-drop sequence if exists client_SEQ;
-
-create sequence client_SEQ start with 1 increment by 1;
 
 create table client
 (
@@ -25,18 +22,17 @@ create table phones
     client_id bigint references client(id)
 );
 
-alter sequence client_SEQ restart with 1;
-
 delete from address;
-insert into address(street) values ('ewrwrwer');
-insert into address(street) values ('asdada');
-insert into address(street) values ('sdfdgsf');
+insert into address(street) values ('street one');
+insert into address(street) values ('street two');
+insert into address(street) values ('street three');
 
 delete from client;
-insert into client(name, address_id) values ('ssss',1);
-insert into client(name, address_id) values('ffff',2);
-insert into client(name, address_id) values('dddd',2);
+insert into client(name, address_id) values ('First client',1);
+insert into client(name, address_id) values('Second client',2);
+insert into client(name, address_id) values('Third client',2);
 
 delete from phones;
 insert into phones(number, client_id) values ('3333', 1);
-insert into phones(number, client_id) values ('4444', 2);
+insert into phones(number, client_id) values ('456', 2);
+insert into phones(number, client_id) values ('789', 2);

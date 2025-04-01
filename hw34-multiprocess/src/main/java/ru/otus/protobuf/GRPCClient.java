@@ -5,6 +5,7 @@ import static ru.otus.protobuf.Util.sleepNumSec;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,7 @@ public class GRPCClient {
     private static final String SERVER_HOST = "localhost";
     private static final int SERVER_PORT = 8190;
 
-    private static volatile int serverValue = 0;
+    private static final AtomicInteger serverValue = new AtomicInteger(0);
 
     public static void main(String[] args) throws InterruptedException {
         var channel = ManagedChannelBuilder.forAddress(SERVER_HOST, SERVER_PORT)
@@ -27,7 +28,7 @@ public class GRPCClient {
         stub.generateValues(request, new StreamObserver<>() {
             @Override
             public void onNext(ServerMessage serverMessage) {
-                serverValue = serverMessage.getResultValue();
+                serverValue.set(serverMessage.getResultValue());
                 log.info("serverValue: {}", serverValue);
             }
 
@@ -44,12 +45,11 @@ public class GRPCClient {
         });
         log.info("numbers Client is started");
         int currentValue = 0;
-        int localServerValue = 0;
+        int savedServerValue = 0;
         while (currentValue < 50) {
             sleepNumSec(1);
-            currentValue = localServerValue != serverValue
-                    ? currentValue + (localServerValue = serverValue) + 1
-                    : currentValue + 1;
+            int localServerValue = serverValue.get();
+            currentValue += savedServerValue != localServerValue ? (savedServerValue = localServerValue) + 1 : 1;
             log.info("currentValue: {}", currentValue);
         }
         latch.await();

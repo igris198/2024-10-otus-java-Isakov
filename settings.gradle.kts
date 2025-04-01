@@ -1,8 +1,9 @@
 rootProject.name = "2024-10-otus-java-Isakov"
+/*
 include("hw01-gradle")
 include("hw03-generics")
 include("hw06-annotations")
-
+*/
 pluginManagement {
     val jgitver: String by settings
     val dependencyManagement: String by settings
@@ -24,6 +25,7 @@ pluginManagement {
         id("com.diffplug.spotless") version spotless
     }
 }
+/*
 include("hw08-gc")
 include("hw10-byteCodes")
 include("hw12-solid")
@@ -37,3 +39,6 @@ include("hw25-di")
 include("hw28-springDataJdbc")
 include("hw31-executors")
 include("hw32-concurrentCollections")
+
+ */
+include("hw34-multiprocess")

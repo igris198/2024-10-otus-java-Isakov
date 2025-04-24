@@ -1,5 +1,5 @@
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
-import name.remal.gradle_plugins.sonarlint.SonarLintExtension
+//import name.remal.gradle_plugins.sonarlint.SonarLintExtension
 import org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 
@@ -119,7 +119,7 @@ subprojects {
         options.compilerArgs.addAll(listOf("-parameters", "-Xlint:all,-serial,-processing"))
         dependsOn("spotlessApply")
     }
-
+/*
     apply<name.remal.gradle_plugins.sonarlint.SonarLintPlugin>()
     configure<SonarLintExtension> {
         nodeJs {
@@ -127,6 +127,7 @@ subprojects {
             logNodeJsNotFound = false
         }
     }
+ */
     apply<com.diffplug.gradle.spotless.SpotlessPlugin>()
     configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         java {

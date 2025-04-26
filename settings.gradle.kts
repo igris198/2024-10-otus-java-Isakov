@@ -42,3 +42,8 @@ include("hw32-concurrentCollections")
 
  */
 include("hw34-multiprocess")
+include("hw38-webflux-chat")
+include("hw38-webflux-chat:datastore-service")
+findProject(":hw38-webflux-chat:datastore-service")?.name = "datastore-service"
+include("hw38-webflux-chat:client-service")
+findProject(":hw38-webflux-chat:client-service")?.name = "client-service"
